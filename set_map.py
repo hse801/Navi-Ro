@@ -1,14 +1,10 @@
 import math
-# from navi_main import ocr1
-# from navi_main import ocr2
-from aws_text_recognition import total_ocr1
-from aws_text_recognition import total_ocr2
-from main_indoormap import stt_result
-
-
+import cv2
+#from navi_ocr_stt import stt_result
+from aws_tts import tts
 class set_node:
     def name(self):
-        num = {"aa":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","ee":"n5","ff":"n6","gg":"n7","hh":"n8"}
+        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","ZARA":"n6","SUBWAY":"n7","TOMBROWN":"n8"}
         return num[self]
 
 class Node:
@@ -198,12 +194,60 @@ class link:
             link = tuple(link)
 
             link_name.append(position[link])
-        print(link_name)
+        print("Link_name =",link_name)
+
         usernotice = []
 
         for i in range(len(link_name)):
             usernotice.append(direct[link_name[i]][0])
+
         print("usernotice", usernotice)
+
+
+        continue_dist = []
+        for i in range(len(link_name)):
+            continue_dist.append(direct[link_name[i]][1])
+        print("continue_dist =",continue_dist)
+
+        continue_index = []
+        distance_sum = 0
+        for i in range(len(usernotice)-1):
+            if usernotice[i] == usernotice[i + 1]:
+                continue_index.append(i)
+                continue_index.append(i+1)
+
+
+                #distance_sum += direct[link_name[i]][1]
+        k = 0
+        while k < len(continue_index) - 1:
+            if continue_index[k] == continue_index[k + 1]:
+                del continue_index[k]
+            else:
+                k = k + 1
+
+        print("continue_index =",continue_index)
+
+        for i in continue_index:
+            distance_sum += direct[link_name[continue_index[i]]][1]
+        #연속되는 realnotice 값 1개로 처리
+        i = 0
+        while i < len(usernotice) - 1:
+            if usernotice[i] == usernotice[i + 1]:
+                del usernotice[i]
+            else:
+                i = i + 1
+        print("usernotice =",usernotice)
+
+        for i in continue_index:
+            continue_dist[i] = distance_sum
+
+        j = 0
+        while j < len(continue_dist) - 1:
+            if continue_dist[j] == continue_dist[j + 1]:
+                del continue_dist[j]
+            else:
+                j = j + 1
+        print("continue_dist =",continue_dist)
 
         realnotice = []
 
@@ -215,15 +259,25 @@ class link:
         # 0번째 안내
         if realnotice[0][0] == "E":
             print("우회전하세요")
+            text = "우회전하세요"
+            tts(text)
 
-        if realnotice[0][0] == "S":
+        elif realnotice[0][0] == "S":
             print("뒤로 도세요")
+            text = "뒤로 도세요"
+            tts(text)
 
-        if realnotice[0][0] == "W":
+        elif realnotice[0][0] == "W":
             print("좌회전하세요")
+            text = "좌회전하세요"
+            tts(text)
 
-        if realnotice[0][0] == "N":
+        elif realnotice[0][0] == "N":
             print("직진하세요")
+            text = "직진하세요"
+            tts(text)
+
+        cv2.waitKey(1500)
 
         ##첫번째부터 안내 시작
 
@@ -233,15 +287,25 @@ class link:
         # notice_direction_1 = "오른쪽으로 도세요"
         # notice_direction_2 = "왼쪽으로 도세요"
 
+
         for i in range(len(realnotice)):
             # print(realnotice[i])
             # 거리
             # notice_dist = []
             # notice_dist.append(direct[link_name[i]][1])
-            print(direct[link_name[i]][1], "미터 앞으로 가세요")
+            print(continue_dist[i], "미터 앞으로 가세요")
+            num = continue_dist[i]
+            text = str(num) + "미터 앞으로 가세요"
+            tts(text)
+            # cv2.waitKey(300)
+            # text = "미터 앞으로 가세요"
+            # tts(text)
+            cv2.waitKey(1500)
 
             if realnotice[i][0] == realnotice[i][1]:
                 print("계속 같은 방향입니다")
+                text = "계속 같은 방향입니다"
+                tts(text)
 
             else:
                 # 각도
@@ -264,15 +328,32 @@ class link:
 
                 if notice_angle == 1 and notice_direction == 1:
                     print("우회전하세요")
+                    text = "우회전하세요"
+                    tts(text)
                 elif notice_angle == 1 and notice_direction == 2:
                     print("좌회전하세요")
+                    text = "좌회전하세요"
+                    tts(text)
                 elif notice_angle == 2 and notice_direction == 1:
                     print("뒤로 도세요")
+                    text = "뒤로 도세요"
+                    tts(text)
                 else:
                     print("뒤로 도세요")
+                    text= "뒤로 도세요"
+                    tts(text)
+
+            cv2.waitKey(1500)
 
         x = len(link_name)
-        print(direct[link_name[x - 1]][1], "미터 앞으로 가세요")
+        print(continue_dist[len(continue_dist)-1], "미터 앞으로 가세요")
+        num = continue_dist[len(continue_dist)-1]
+        text = str(num) + "미터 앞으로 가세요"
+        # tts(text)
+        # cv2.waitKey(300)
+        # text = "미터 앞으로 가세요"
+        tts(text)
+        cv2.waitKey(1500)
         # f ocr1 == stt_result or ocr2 == stt_result:i
         # while True:
         #     final1 = total_ocr1()
@@ -284,4 +365,6 @@ class link:
         #         print("왼쪽에 목적지가 있습니다")
         #         break
         print("도착!")
+        text = "도착"
+        tts(text)
         return link_name

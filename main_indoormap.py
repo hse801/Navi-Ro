@@ -14,26 +14,34 @@ from aws_text_recognition import total_ocr1
 from aws_text_recognition import total_ocr2
 
 
-#오른쪽 캠
-ocr1 = total_ocr1()
-
-
-#왼쪽 캠
-ocr2 = total_ocr2()
-
-
-text_result = main_stt()
-
-if text_result == "빈폴":
-    stt_result = "BEANPOLE"
-elif text_result == "라코스테":
-    stt_result = "LACOSTE"
-elif text_result == "스타벅스":
-    stt_result = "STARBUCKS"
-
-
 def main():
+
     from set_map import set_node, link, navi
+    # 오른쪽 캠
+    ocr1 = total_ocr1()
+
+    # 왼쪽 캠
+    ocr2 = total_ocr2()
+
+    text_result = main_stt()
+    #text_result = "자라."
+
+    if text_result == "빈폴.":
+        stt_result = "BEANPOLE"
+    elif text_result == "라코스테.":
+        stt_result = "LACOSTE"
+    elif text_result == "스타벅스.":
+        stt_result = "STARBUCKS"
+    elif text_result == '서브웨이.':
+        stt_result = 'SUBWAY'
+    elif text_result == '자라.':
+        stt_result = 'ZARA'
+
+    # elif text_result == '톰브라운.':
+    #     stt_result = ''
+
+    #print(stt_result)
+
 
     # ocr 로 간판 문구 확인
     if ocr1 == [0]:
@@ -77,5 +85,5 @@ def main():
 
     print("link =",link)
 
-if __name__ == '__main__':
-    main()
+
+main()

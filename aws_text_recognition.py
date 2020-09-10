@@ -11,10 +11,9 @@ ocr_result2 = [0]
 def total_ocr1():
     # ocr_result1=""
 
-    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     bucket_name = "prociegoo"
     aws_region = "ap-northeast-2"
-
     filename = "testimggg1.jpg"
 
 
@@ -49,7 +48,7 @@ def total_ocr1():
        print('The image contains the following text:'  )
        # Parse the JSON response from Amazon Rekognition, and print out detecd lines of text.
        for text in response['TextDetections']:
-                if (text['Type'] == 'LINE'):
+                if text['Type'] == 'LINE':
                    print ('Text: ' + text['DetectedText'] + ' was detected on line ' + str(text['Id']) + ' with confidence of ' + str(text['Confidence']))
                 ocr_result1=text['DetectedText']
 
@@ -70,12 +69,12 @@ def total_ocr1():
           #while True:
           captureImage()
                 # wait for thbe camptured
-          time.sleep(2)
+          # time.sleep(2)
           uploadImage()
                 # waior the image to uploaded
-          time.sleep(5)
+          # time.sleep(5)
           detectText()
-          time.sleep(5)
+          # time.sleep(5)
     main()
     print("ocr_result1", ocr_result1)
     return ocr_result1
@@ -84,7 +83,7 @@ def total_ocr1():
 #############################################
 def total_ocr2():
 
-    cap = cv2.VideoCapture(2, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     bucket_name = "prociegoo"
     aws_region = "ap-northeast-2"
 
@@ -142,12 +141,12 @@ def total_ocr2():
           #while True:
           captureImage()
                 # wait for thbe camptured
-          time.sleep(2)
+          # time.sleep(2)
           uploadImage()
                 # waior the image to uploaded
-          time.sleep(5)
+          # time.sleep(5)
           detectText()
-          time.sleep(5)
+          # time.sleep(5)
 
     main()
     print("ocr_result2", ocr_result2)
