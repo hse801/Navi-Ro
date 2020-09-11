@@ -257,22 +257,22 @@ class link:
         print("realnotice =", realnotice)
 
         # 0번째 안내
-        if realnotice[0][0] == "E":
+        if usernotice[0][0] == "E":
             print("우회전하세요")
             text = "우회전하세요"
             tts(text)
 
-        elif realnotice[0][0] == "S":
+        elif usernotice[0][0] == "S":
             print("뒤로 도세요")
             text = "뒤로 도세요"
             tts(text)
 
-        elif realnotice[0][0] == "W":
+        elif usernotice[0][0] == "W":
             print("좌회전하세요")
             text = "좌회전하세요"
             tts(text)
 
-        elif realnotice[0][0] == "N":
+        elif usernotice[0][0] == "N":
             print("직진하세요")
             text = "직진하세요"
             tts(text)
