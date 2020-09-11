@@ -34,8 +34,13 @@ def main():
         stt_result = "STARBUCKS"
     elif text_result == '서브웨이.':
         stt_result = 'SUBWAY'
+    elif text_result == '이니스프리.':
+        stt_result = 'innisfree'
+    elif text_result == '톰 브라운':
+        stt_result = 'THOMBROWNE'
     elif text_result == '자라.':
         stt_result = 'ZARA'
+
 
     # elif text_result == '톰브라운.':
     #     stt_result = ''

@@ -51,7 +51,7 @@ def main_stt():
 
 
     transcribe = boto3.client('transcribe')
-    job_name = "hse7"
+    job_name = "hse12"
     #job_uri = "https://S3 endpoint/test-transcribe/answer2.wav"
     #job_uri = "https://s3.ap-northeast-2.amazonaws.com/prociegoo/KoreanTrans.json/TranscribeTest.mp3"
     #job_uri = "C:/Users/Park Jieun/PycharmProjects/project/output1.wav"
@@ -68,7 +68,7 @@ def main_stt():
         if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
             break
         print("Not ready yet...")
-        time.sleep(10)
+        time.sleep(30)
     print(status)
 
     if status['TranscriptionJob']['TranscriptionJobStatus'] == 'COMPLETED':

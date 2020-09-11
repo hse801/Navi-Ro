@@ -7,6 +7,7 @@ import math
 from math import atan, pi, floor
 import matplotlib.pyplot as plt
 import math
+from aws_tts import tts
 
 dist = []
 angle = []
@@ -24,7 +25,7 @@ obj2_exist = 0
 
 def startyolo():
     global num1
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     cap.set(3, 1920)
     cap.set(4, 1080)
     ret, image = cap.read()
@@ -102,7 +103,7 @@ def startyolo():
 
                             num2 += 1
                             obj1_exist = 1
-                        if label == "bottle":
+                        if label == "chair":
                             global obj2_yolo_angle
                             global num3
                             global obj2_exist
@@ -239,7 +240,7 @@ def read_Lidar():
 
     def main():
         # Open Serial
-        ser = serial.Serial(port='COM3', baudrate=512000)
+        ser = serial.Serial(port='COM13', baudrate=512000)
         ser.isOpen()
 
         # Scan start
@@ -344,14 +345,31 @@ def obstacle():
         # print(nonzero_DCD[1])
         print("sumDCD2 = ", sumDCD2)
 
+        # 거리값 반올림
         avgdist2 = min(sumDCD2) / len(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
         print(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
+        round_dist1 = round(avgdist1)
+        round_dist2 = round(avgdist2)
 
     # 최종결과
     if obj1_exist == 1:
-        print("avgdist_person = ", avgdist1)
+        if round_dist1 < 1:
+            print("1미터 이내에 사람이 있습니다.")
+            text = "1미터 이내에 사람이 있습니다."
+            tts(text)
+        else:
+            print(round_dist1, "미터 앞에 사람이 있습니다.")
+            text = str(round_dist1) + "미터 앞에 사람이 있습니다."
+            tts(text)
     if obj2_exist == 1:
-        print("avgdist_bottle = ", avgdist2)
+        if round_dist2 < 1:
+            print("1미터 이내에 있습니다.")
+            text = "1미터 이내에 있습니다."
+            tts(text)
+        else:
+            print(round_dist2, "미터 앞에 장애물이 있습니다.")
+            text = str(round_dist2) + "미터 앞에 장애물이 있습니다."
+            tts(text)
 
 
 obstacle()

@@ -2,10 +2,13 @@ import math
 import cv2
 #from navi_ocr_stt import stt_result
 from aws_tts import tts
+
+
 class set_node:
     def name(self):
-        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","ZARA":"n6","SUBWAY":"n7","TOMBROWN":"n8"}
+        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","innisfree":"n6","SUBWAY":"n7","ThOMBROWNE":"n8"}
         return num[self]
+
 
 class Node:
     """A node class for A* Pathfinding"""

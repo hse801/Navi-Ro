@@ -11,7 +11,7 @@ ocr_result2 = [0]
 def total_ocr1():
     # ocr_result1=""
 
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     bucket_name = "prociegoo"
     aws_region = "ap-northeast-2"
     filename = "testimggg1.jpg"
@@ -83,7 +83,7 @@ def total_ocr1():
 #############################################
 def total_ocr2():
 
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(2, cv2.CAP_DSHOW)
     bucket_name = "prociegoo"
     aws_region = "ap-northeast-2"
 
