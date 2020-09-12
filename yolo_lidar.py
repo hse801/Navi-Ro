@@ -195,18 +195,10 @@ def read_Lidar():
                 Angle_i = Angle_i_tmp
 
             Angle_i = Angle_i + _AngleCorr(dist_i)
-            # print(Angle_i)
             ddict.append((dist_i, Angle_i))
             dist.append(dist_i * 2)
             angle.append(Angle_i)
 
-            # angcheckdone = []
-            # distcheckdone = []
-            # if Angle_i >200:
-            # Angle_i - 100 <= anglecheck + 149 <= Angle_i + 100
-
-            # print(anglecheck)
-            # print(anglecheck2)
             return ddict
 
     def _Mean(data):
@@ -338,11 +330,7 @@ def obstacle():
             sumDCD2.append(sum(nonzero_DCD2[k]))
 
         print("distcheckdone2 = ", distcheckdone2)
-        # print(distcheckdone[0])
-        # print(distcheckdone[1])
         print("nonzero_DCD2 = ", nonzero_DCD2)
-        # print(nonzero_DCD[0])
-        # print(nonzero_DCD[1])
         print("sumDCD2 = ", sumDCD2)
 
         # 거리값 반올림

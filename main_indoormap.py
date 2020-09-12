@@ -1,4 +1,7 @@
 from __future__ import print_function
+from aws_stt import main_stt
+from aws_text_recognition import total_ocr1
+from aws_text_recognition import total_ocr2
 import boto3
 import time
 import cv2
@@ -8,10 +11,6 @@ import json
 import pyaudio
 import wave
 import urllib.request
-
-from aws_stt import main_stt
-from aws_text_recognition import total_ocr1
-from aws_text_recognition import total_ocr2
 
 
 def main():
@@ -40,13 +39,10 @@ def main():
         stt_result = 'THOMBROWNE'
     elif text_result == '자라.':
         stt_result = 'ZARA'
-
-
     # elif text_result == '톰브라운.':
     #     stt_result = ''
 
     #print(stt_result)
-
 
     # ocr 로 간판 문구 확인
     if ocr1 == [0]:
@@ -54,7 +50,7 @@ def main():
     elif ocr2 == [0]:
         start = ocr1
 
-    #시작 지점의 노드 확인
+    # 시작 지점의 노드 확인
     strt_node = set_node.name(start)
 
     print(strt_node)
@@ -66,7 +62,7 @@ def main():
     print(fin_node)
 
     #경로 찾기
-    path = navi.path(strt_node,fin_node)
+    path = navi.path(strt_node, fin_node)
 
     print("path =", path)
 
@@ -82,13 +78,13 @@ def main():
     # print("fin_locat =", fin_locat)
 
     #경로에 따라 총 거리 구하기
-    dist,path_node = link.dist(path)
+    dist, path_node = link.dist(path)
     print("dist =", dist)
-    print("path_node =",path_node)
+    print("path_node =", path_node)
 
     link = link.direction(path_node)
 
-    print("link =",link)
+    print("link =", link)
 
 
 main()

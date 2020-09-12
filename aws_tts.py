@@ -10,6 +10,8 @@ from tempfile import gettempdir
 #from pydub import AudioSegment
 # Create a client using the credentials and region defined in the [adminuser]
 # section of the AWS credentials file (~/.aws/credentials).
+
+
 def tts(text):
     session = Session(profile_name="user1")
     polly = session.client("polly")

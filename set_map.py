@@ -1,6 +1,5 @@
 import math
 import cv2
-#from navi_ocr_stt import stt_result
 from aws_tts import tts
 
 
@@ -166,7 +165,6 @@ class link:
 
         return sum, path_node
 
-
     def direction(path):
 
         direct = {"L13": ["N", 15], "L43": ["E", 15], "L56": ["N", 12],
@@ -190,10 +188,7 @@ class link:
 
         link_name = []
         for i in range(len(path)-1):
-            link = []
-            link.append(path[i])
-            link.append(path[i+1])
-
+            link = [path[i], path[i + 1]]
             link = tuple(link)
 
             link_name.append(position[link])
@@ -206,7 +201,6 @@ class link:
 
         print("usernotice", usernotice)
 
-
         continue_dist = []
         for i in range(len(link_name)):
             continue_dist.append(direct[link_name[i]][1])
@@ -218,8 +212,6 @@ class link:
             if usernotice[i] == usernotice[i + 1]:
                 continue_index.append(i)
                 continue_index.append(i+1)
-
-
                 #distance_sum += direct[link_name[i]][1]
         k = 0
         while k < len(continue_index) - 1:
@@ -232,7 +224,7 @@ class link:
 
         for i in continue_index:
             distance_sum += direct[link_name[continue_index[i]]][1]
-        #연속되는 realnotice 값 1개로 처리
+        # 연속되는 realnotice 값 1개로 처리
         i = 0
         while i < len(usernotice) - 1:
             if usernotice[i] == usernotice[i + 1]:
@@ -289,7 +281,6 @@ class link:
         #
         # notice_direction_1 = "오른쪽으로 도세요"
         # notice_direction_2 = "왼쪽으로 도세요"
-
 
         for i in range(len(realnotice)):
             # print(realnotice[i])

@@ -44,14 +44,12 @@ def main_stt():
     wf.writeframes(b''.join(frames))
     wf.close()
 
-
     s3 = boto3.client('s3')
     bucket_name = 'prociegoo'
     s3.upload_file(WAVE_OUTPUT_FILENAME, bucket_name, WAVE_OUTPUT_FILENAME)
 
-
     transcribe = boto3.client('transcribe')
-    job_name = "hse12"
+    job_name = "hse14"
     #job_uri = "https://S3 endpoint/test-transcribe/answer2.wav"
     #job_uri = "https://s3.ap-northeast-2.amazonaws.com/prociegoo/KoreanTrans.json/TranscribeTest.mp3"
     #job_uri = "C:/Users/Park Jieun/PycharmProjects/project/output1.wav"
@@ -66,6 +64,7 @@ def main_stt():
     while True:
         status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
         if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
+            transcribe.delete_transcription_job(TranscriptionJobName=job_name)
             break
         print("Not ready yet...")
         time.sleep(30)
