@@ -136,6 +136,7 @@ def total_ocr2():
     main()
     print("ocr_result2", ocr_result2)
     return ocr_result2
+# detect 된 문구를 return 한다
 
 # thread1 = threading.Thread(target=total_ocr1)
 # thread2 = threading.Thread(target=total_ocr2)

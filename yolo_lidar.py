@@ -103,7 +103,7 @@ def startyolo():
 
                             num2 += 1
                             obj1_exist = 1
-                        if label == "chair":
+                        if label == "bottle":
                             global obj2_yolo_angle
                             global num3
                             global obj2_exist

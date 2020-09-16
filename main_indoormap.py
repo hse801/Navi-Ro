@@ -18,12 +18,21 @@ def main():
     from set_map import set_node, link, navi
     # 오른쪽 캠
     ocr1 = total_ocr1()
-
     # 왼쪽 캠
     ocr2 = total_ocr2()
 
-    text_result = main_stt()
-    #text_result = "자라."
+    while ocr1 == [0] and ocr2 == [0]:
+        ocr1 = total_ocr1()
+        ocr2 = total_ocr2()
+        # ocr 로 간판 문구 확인
+    if ocr1 != [0]:
+        start = ocr1
+    elif ocr2 != [0]:
+        start = ocr2
+
+    print('목적지를 말씀해주세요.')
+    #text_result = main_stt()
+    text_result = "라코스테."
 
     if text_result == "빈폴.":
         stt_result = "BEANPOLE"
@@ -44,11 +53,7 @@ def main():
 
     #print(stt_result)
 
-    # ocr 로 간판 문구 확인
-    if ocr1 == [0]:
-        start = ocr2
-    elif ocr2 == [0]:
-        start = ocr1
+
 
     # 시작 지점의 노드 확인
     strt_node = set_node.name(start)

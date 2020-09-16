@@ -5,7 +5,7 @@ from aws_tts import tts
 
 class set_node:
     def name(self):
-        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","innisfree":"n6","SUBWAY":"n7","ThOMBROWNE":"n8"}
+        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","ZARA":"n6","SUBWAY":"n7","ThOMBROWNE":"n8"}
         return num[self]
 
 
@@ -22,6 +22,7 @@ class Node:
 
     def __eq__(self, other):
         return self.position == other.position
+
 
 class navi:
 
@@ -43,7 +44,6 @@ class navi:
         #bb = {v: k for k, v in maze_dict.items()}
 
         return maze_dict[start], maze_dict[fin]
-
 
     def astar(maze, start, end):
         """Returns a list of tuples as a path from the given start to the given end in the given maze"""
@@ -130,8 +130,9 @@ class navi:
                 # Add the child to the open list
                 open_list.append(child)
 
+
 class link:
-    #경로 노드에 해당하는 좌표값을 구해서 노드 사이의 거리들 따로 계산 ? 아니면 총 거리로 계산하는게 나은가?
+    # 경로 노드에 해당하는 좌표값을 구해서 노드 사이의 거리들 따로 계산 ? 아니면 총 거리로 계산하는게 나은가?
     # def locat(self):
     #     f_node = {v: k for k, v in navi.maze_node.maze_dict.items()}
     #     f_node.get(self)
@@ -206,7 +207,7 @@ class link:
             continue_dist.append(direct[link_name[i]][1])
         print("continue_dist =",continue_dist)
 
-        continue_index = []
+        continue_index = [] # 연속될 경우의 인덱스 값
         distance_sum = 0
         for i in range(len(usernotice)-1):
             if usernotice[i] == usernotice[i + 1]:
@@ -221,9 +222,10 @@ class link:
                 k = k + 1
 
         print("continue_index =",continue_index)
-
+        # usernotice = SSEWNNWSSS~~~~~
+        # realnotice = [S,S][S,E],~~~~~~
         for i in continue_index:
-            distance_sum += direct[link_name[continue_index[i]]][1]
+            distance_sum += direct[link_name[i]][1]
         # 연속되는 realnotice 값 1개로 처리
         i = 0
         while i < len(usernotice) - 1:
@@ -231,7 +233,7 @@ class link:
                 del usernotice[i]
             else:
                 i = i + 1
-        print("usernotice =",usernotice)
+        print("usernotice =", usernotice)
 
         for i in continue_index:
             continue_dist[i] = distance_sum
