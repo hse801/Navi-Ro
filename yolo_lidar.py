@@ -336,28 +336,30 @@ def obstacle():
         # 거리값 반올림
         avgdist2 = min(sumDCD2) / len(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
         print(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
-        round_dist1 = round(avgdist1)
-        round_dist2 = round(avgdist2)
+        print('avgdist1 = ', avgdist1)
+        print('avgdist2 = ', avgdist2)
+        round_dist1 = round(avgdist1/1000)
+        round_dist2 = round(avgdist2/1000)
 
     # 최종결과
     if obj1_exist == 1:
         if round_dist1 < 1:
             print("1미터 이내에 사람이 있습니다.")
-            text = "1미터 이내에 사람이 있습니다."
-            tts(text)
+            text1 = "1미터 이내에 사람이 있습니다."
+            tts(text1)
         else:
             print(round_dist1, "미터 앞에 사람이 있습니다.")
-            text = str(round_dist1) + "미터 앞에 사람이 있습니다."
-            tts(text)
+            text1 = str(round_dist1) + "미터 앞에 사람이 있습니다."
+            tts(text1)
     if obj2_exist == 1:
         if round_dist2 < 1:
             print("1미터 이내에 있습니다.")
-            text = "1미터 이내에 있습니다."
-            tts(text)
+            text2 = "1미터 이내에 있습니다."
+            tts(text2)
         else:
             print(round_dist2, "미터 앞에 장애물이 있습니다.")
-            text = str(round_dist2) + "미터 앞에 장애물이 있습니다."
-            tts(text)
+            text2 = str(round_dist2) + "미터 앞에 장애물이 있습니다."
+            tts(text2)
 
 
 obstacle()
