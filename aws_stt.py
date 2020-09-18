@@ -49,7 +49,7 @@ def main_stt():
     s3.upload_file(WAVE_OUTPUT_FILENAME, bucket_name, WAVE_OUTPUT_FILENAME)
 
     transcribe = boto3.client('transcribe')
-    job_name = "hse14"
+    job_name = "hse15"
     #job_uri = "https://S3 endpoint/test-transcribe/answer2.wav"
     #job_uri = "https://s3.ap-northeast-2.amazonaws.com/prociegoo/KoreanTrans.json/TranscribeTest.mp3"
     #job_uri = "C:/Users/Park Jieun/PycharmProjects/project/output1.wav"

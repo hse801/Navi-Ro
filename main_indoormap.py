@@ -13,66 +13,18 @@ import pyaudio
 import wave
 import urllib.request
 
+
 def main():
     from set_map import bring, link
 
     path,strt,fin = bring.main()
 
     #link = link.direction(path)
-    continue_dist, realnotice, link_name ,next_name =  link.direction(path,fin)
+    continue_dist, realnotice, link_name, next_name = link.direction(path, fin)
 
     link = link.notice(continue_dist, realnotice, link_name, next_name)
     print("link =", link)
 
-    # while fin != strt:
-    #     node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5", "ZARA": "n6",
-    #                  "SUBWAY": "n7", "THOMBROWNE": "n8"}
-    #
-    #     while ocr1 == [0] and ocr2 == [0]:
-    #         ocr1 = total_ocr1()
-    #         ocr2 = total_ocr2()
-    #         # ocr 로 간판 문구 확인
-    #     if ocr1 != [0]:
-    #         start = ocr1
-    #     elif ocr2 != [0]:
-    #         start = ocr2
-    #     print('start1 = ', start)
-    #
-    #     while start not in node_info:
-    #         print('not in node list')
-    #         while ocr1 == [0] and ocr2 == [0]:
-    #             ocr1 = total_ocr1()
-    #             ocr2 = total_ocr2()
-    #             # ocr 로 간판 문구 확인
-    #         ocr1 = total_ocr1()
-    #         ocr2 = total_ocr2()
-    #         if ocr1 != [0] and ocr1 in node_info:
-    #             start = ocr1
-    #         elif ocr2 != [0] and ocr2 in node_info:
-    #             start = ocr2
-    #
-    #         print('start2 = ', start)
-
-    # while fin != strt:
-    #     node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5", "ZARA": "n6",
-    #                  "SUBWAY": "n7", "THOMBROWNE": "n8"}
-    #
-    #     # 오른쪽 캠
-    #     ocr1 = total_ocr1()
-    #
-    #     # 왼쪽 캠
-    #     ocr2 = total_ocr2()
-    #
-    #     start = "none"
-    #     # ocr 로 간판 문구 확인
-    #     if ocr1 != [0]:
-    #         start = ocr1
-    #         strt = node_info[start]
-    #     elif ocr2 != [0]:
-    #         start = ocr2
-    #         strt = node_info[start]
-    #
-    #     print(start)
 
 main()
 

@@ -4,15 +4,18 @@ import cv2
 # from navi_main import ocr2
 from aws_text_recognition import total_ocr1
 from aws_text_recognition import total_ocr2
-#from navi_ocr_stt import stt_result
+# from navi_ocr_stt import stt_result
 from aws_tts import tts
+from aws_stt import main_stt
 
 
 class set_node:
     def name(self):
-        num = {"LOTTERIA":"n1", "BEANPOLE":"n2","LACOSTE":"n3","STARBUCKS":"n4","IKEA":"n5","ZARA":"n6","SUBWAY":"n7","THOMBROWNE":"n8","BOBBIBROWN":"n4"}
+        num = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3","STARBUCKS": "n4", "IKEA": "n5","ZARA": "n6",
+               "SUBWAY": "n7", "THOMBROWNE": "n8", "BOBBIBROWN": "n4"}
         bb = {v: k for k, v in num.items()}
         return bb[self]
+
 
 class Node:
     """A node class for A* Pathfinding"""
@@ -27,6 +30,7 @@ class Node:
 
     def __eq__(self, other):
         return self.position == other.position
+
 
 class navi:
 
@@ -48,7 +52,6 @@ class navi:
         #bb = {v: k for k, v in maze_dict.items()}
 
         return maze_dict[start], maze_dict[fin]
-
 
     def astar(maze, start, end):
         """Returns a list of tuples as a path from the given start to the given end in the given maze"""
@@ -135,6 +138,7 @@ class navi:
                 # Add the child to the open list
                 open_list.append(child)
 
+
 class link:
     #경로 노드에 해당하는 좌표값을 구해서 노드 사이의 거리들 따로 계산 ? 아니면 총 거리로 계산하는게 나은가?
     # def locat(self):
@@ -156,7 +160,6 @@ class link:
 
         return path_node
 
-
     def direction(path,fin_node):
 
         direct = {"L13": ["N", 15], "L43": ["E", 15], "L56": ["N", 12],
@@ -174,7 +177,7 @@ class link:
                     ("n3", "n1"): "L31", ("n3", "n4"): "L34", ("n6", "n5"): "L65",
                     ("n2", "n3"): "L23", ("n4", "n5"): "L45", ("n7", "n5"): "L75",
                     ("n3", "n2"): "L32", ("n5", "n4"): "L54", ("n5", "n7"): "L57",
-                    ("n2","n8"):"L28", ("n8","n2"):"L82"}
+                    ("n2", "n8"): "L28", ("n8", "n2"): "L82"}
 
         #bb2 = {v: k for k, v in direct.items()}
 
@@ -188,7 +191,7 @@ class link:
 
             link_name.append(position[link])
         print('===================direction start=========================')
-        print("def(direction) : Link_name =",link_name)
+        print("def(direction) : Link_name =", link_name)
 
         usernotice = []
 
@@ -197,16 +200,14 @@ class link:
 
         print("def(direction) : usernotice", usernotice)
 
-
         # 알림받을 노드 설정해주기
         next_node = bring.send(usernotice,path)
         print("def(direction) : next_node =", next_node)
 
-
         continue_dist = []
         for i in range(len(link_name)):
             continue_dist.append(direct[link_name[i]][1])
-        print("def(direction) : continue_dist =",continue_dist)
+        print("def(direction) : continue_dist =", continue_dist)
 
         continue_index = []
         distance_sum = 0
@@ -215,8 +216,6 @@ class link:
             if usernotice[i] == usernotice[i + 1]:
                 continue_index.append(i)
                 continue_index.append(i+1)
-
-
                 #distance_sum += direct[link_name[i]][1]
         k = 0
         while k < len(continue_index) - 1:
@@ -230,7 +229,7 @@ class link:
         for i in continue_index:
             distance_sum += direct[link_name[i]][1]
 
-        #연속되는 realnotice 값 1개로 처리
+        # 연속되는 realnotice 값 1개로 처리
         i = 0
         while i < len(usernotice) - 1:
             if usernotice[i] == usernotice[i + 1]:
@@ -261,24 +260,22 @@ class link:
         print("realnotice =", realnotice)
         #realnotice[0][0]
 
-        #안내해줘야하는 노드에 해당하는 간판 이름 저장
+        # 안내해줘야하는 노드에 해당하는 간판 이름 저장
         next_name = []
         for i in next_node:
             next_name.append(set_node.name(i))
 
-
         next_name.append(set_node.name(fin_node))
 
-        print("next_name =",next_name)
+        print("next_name =", next_name)
         print('====================direction end===================')
 
         return continue_dist, realnotice, link_name, next_name
 
-
     def notice(continue_dist,realnotice, link_name, next_name):
         # 0번째 안내
 
-        ##첫번째부터 안내 시작
+        # 첫번째부터 안내 시작
 
         # notice_angle_1 = "90도"
         # notice_angle_2 = "180도"
@@ -330,7 +327,7 @@ class link:
                     text = "뒤로 도세요"
                     tts(text)
 
-            cv2.waitKey(1500)
+            cv2.waitKey(2500) #시간 간격 조정하기
 
             # print(realnotice[i])
             # 거리
@@ -345,11 +342,10 @@ class link:
             # tts(text)
             cv2.waitKey(1500)
 
-
             start = "none"
             # 한번 음성안내 하고 다음 노드 도착까지
             # 노드에 도착했을 때 ocr 돌리기
-            while next_name == [] or start != next_name[i]:
+            while start != next_name[i]:
                 node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5",
                              "ZARA": "n6",
                              "SUBWAY": "n7", "THOMBROWNE": "n8"}
@@ -433,23 +429,24 @@ class bring:
 
             print('start2 = ', start)
 
-        text_result = main_stt()
-        #text_result = "롯데리아."
+        #text_result = main_stt()
+        text_result = "스타벅스."
 
-        if text_result == "빈폴.":
+        if text_result == "빈폴." or text_result =="빈폴":
             stt_result = "BEANPOLE"
-        elif text_result == "라코스테.":
+        elif text_result == "라코스테." or text_result =="라코스테":
             stt_result = "LACOSTE"
-        elif text_result == "서브웨이.":
+        elif text_result == "서브웨이."or text_result == "서브웨이":
             stt_result = "SUBWAY"
-        elif text_result == "스타벅스.":
+        elif text_result == "스타벅스."or text_result =="스타벅스":
             stt_result = "STARBUCKS"
-        elif text_result == "자라.":
+        elif text_result == "자라."or text_result =="자라":
             stt_result = "ZARA"
-        elif text_result == "롯데리아.":
+        elif text_result == "롯데리아."or text_result =="롯데리아":
             stt_result = "LOTTERIA"
-        elif text_result == "톰브라운.":
+        elif text_result == "톰브라운."or text_result =="톰브라운":
             stt_result = "THOMBROWNE"
+
 
         # 시작 지점의 노드 확인
         strt_node = node_info[start]
@@ -483,7 +480,7 @@ class bring:
 
         return path_node , strt_node, fin_node
 
-    def send(usernotice,path):#node 받아와서 next node 리턴해주는 함수
+    def send(usernotice,path):# node 받아와서 next node 리턴해주는 함수
 
         # 노드 설정
 
