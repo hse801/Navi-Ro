@@ -347,8 +347,7 @@ class link:
             # 노드에 도착했을 때 ocr 돌리기
             while start != next_name[i]:
                 node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5",
-                             "ZARA": "n6",
-                             "SUBWAY": "n7", "THOMBROWNE": "n8"}
+                             "ZARA": "n6", "SUBWAY": "n7", "THOMBROWNE": "n8"}
                 ocr1 = total_ocr1()
                 ocr2 = total_ocr2()
 
@@ -432,19 +431,19 @@ class bring:
         #text_result = main_stt()
         text_result = "스타벅스."
 
-        if text_result == "빈폴." or text_result =="빈폴":
+        if text_result == "빈폴." or text_result == "빈폴":
             stt_result = "BEANPOLE"
-        elif text_result == "라코스테." or text_result =="라코스테":
+        elif text_result == "라코스테." or text_result == "라코스테":
             stt_result = "LACOSTE"
-        elif text_result == "서브웨이."or text_result == "서브웨이":
+        elif text_result == "서브웨이." or text_result == "서브웨이":
             stt_result = "SUBWAY"
-        elif text_result == "스타벅스."or text_result =="스타벅스":
+        elif text_result == "스타벅스." or text_result == "스타벅스":
             stt_result = "STARBUCKS"
-        elif text_result == "자라."or text_result =="자라":
+        elif text_result == "자라."or text_result == "자라":
             stt_result = "ZARA"
-        elif text_result == "롯데리아."or text_result =="롯데리아":
+        elif text_result == "롯데리아."or text_result == "롯데리아":
             stt_result = "LOTTERIA"
-        elif text_result == "톰브라운."or text_result =="톰브라운":
+        elif text_result == "톰브라운."or text_result == "톰브라운":
             stt_result = "THOMBROWNE"
 
 
