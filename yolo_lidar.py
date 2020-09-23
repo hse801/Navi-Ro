@@ -13,6 +13,9 @@ dist = []
 angle = []
 ddict = []
 
+anglecheck1 = []
+anglecheck2 = []
+
 num1 = 0
 num2 = 0
 num3 = 0
@@ -25,18 +28,19 @@ obj2_exist = 0
 
 def startyolo():
     global num1
-    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     cap.set(3, 1920)
     cap.set(4, 1080)
     ret, image = cap.read()
-    cv2.imwrite("C:/Users/user/1.jpg", image)
+    cv2.imwrite("C:/Users/kim08/desktop/name2.jpg", image)
     cap.release()
-    img = cv2.imread("C:/Users/user/1.jpg")
+    img = cv2.imread("C:/Users/kim08/desktop/name.jpg")
 
     # Yolo 로드
-    net = cv2.dnn.readNet("C:/Users/user/yolov3.weights", "C:/Users/user/yolov3.cfg")
+    net = cv2.dnn.readNet("C:/Users/kim08/darknet-master/data/yolov3.weights",
+                          "C:/Users/kim08/darknet-master/cfg/yolov3.cfg")
     classes = []
-    with open("C:/Users/user/coco.names", "r") as f:
+    with open("C:/Users/kim08/darknet-master/data/coco.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
@@ -117,9 +121,20 @@ def startyolo():
                             obj2_exist = 1
 
                 cv2.imshow("Image", img)
-                cv2.waitKey(0)
+                cv2.waitKey(3000)
                 cv2.destroyAllWindows()
                 num1 += 1
+    anglecheck_obj1 = obj1_yolo_angle[num1 - 1, :]
+    anglecheck_obj2 = obj2_yolo_angle[num1 - 1, :]
+
+    global anglecheck1
+    global anglecheck2
+
+    anglecheck1 = anglecheck_obj1[anglecheck_obj1 > 0]
+    anglecheck2 = anglecheck_obj2[anglecheck_obj2 > 0]
+
+    print("anglecheck1 = ", anglecheck1)
+    print("anglecheck2 = ", anglecheck2)
 
 
 def read_Lidar():
@@ -232,7 +247,7 @@ def read_Lidar():
 
     def main():
         # Open Serial
-        ser = serial.Serial(port='COM13', baudrate=512000)
+        ser = serial.Serial(port='COM3', baudrate=512000)
         ser.isOpen()
 
         # Scan start
@@ -254,27 +269,13 @@ def read_Lidar():
         main()
 
 
-startyolo()  # yolo 실행
-
-anglecheck_obj1 = obj1_yolo_angle[num1 - 1, :]
-anglecheck_obj2 = obj2_yolo_angle[num1 - 1, :]
-
-anglecheck1 = anglecheck_obj1[anglecheck_obj1 > 0]
-anglecheck2 = anglecheck_obj2[anglecheck_obj2 > 0]
-
-print("anglecheck1 = ", anglecheck1)
-print("anglecheck2 = ", anglecheck2)
-
-read_Lidar()  # 라이다 실행
-
-finaldist = dist  # distance와 angle 새로운 변수에 저장
-finalangle = angle
-print("finaldist = ", finaldist)
-
-
 def obstacle():
     global obj1_exist
     global obj2_exist
+
+    finaldist = dist  # distance와 angle 새로운 변수에 저장
+    finalangle = angle
+    print("finaldist = ", finaldist)
 
     anglecheckdone1 = []  # 배열
     anglecheckdone2 = []
@@ -338,8 +339,8 @@ def obstacle():
         print(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
         print('avgdist1 = ', avgdist1)
         print('avgdist2 = ', avgdist2)
-        round_dist1 = round(avgdist1/1000)
-        round_dist2 = round(avgdist2/1000)
+        round_dist1 = round(avgdist1 / 1000)
+        round_dist2 = round(avgdist2 / 1000)
 
     # 최종결과
     if obj1_exist == 1:
@@ -362,4 +363,7 @@ def obstacle():
             tts(text2)
 
 
-obstacle()
+def final():
+    startyolo()
+    read_Lidar()
+    obstacle()

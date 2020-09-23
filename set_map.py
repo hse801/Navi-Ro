@@ -6,7 +6,7 @@ from aws_text_recognition import total_ocr1
 from aws_text_recognition import total_ocr2
 # from navi_ocr_stt import stt_result
 from aws_tts import tts
-from aws_stt import main_stt
+from naver_stt import main_stt
 
 
 class set_node:
@@ -160,10 +160,10 @@ class link:
 
         return path_node
 
-    def direction(path,fin_node):
+    def direction(path,fin_node,fin):
 
-        direct = {"L13": ["N", 15], "L43": ["E", 15], "L56": ["N", 12],
-                  "L31": ["S", 15], "L34": ["W", 15], "L65": ["S", 12],
+        direct = {"L13": ["N", 16], "L43": ["E", 15], "L56": ["N", 12],
+                  "L31": ["S", 16], "L34": ["W", 15], "L65": ["S", 12],
                   "L23": ["W", 14], "L45": ["W", 7], "L75": ["N", 11],
                   "L32": ["E", 14], "L54": ["E", 7], "L57": ["S", 11],
                   "L28": ["N",10],"L82":["S",10]}
@@ -270,9 +270,9 @@ class link:
         print("next_name =", next_name)
         print('====================direction end===================')
 
-        return continue_dist, realnotice, link_name, next_name
+        return continue_dist, realnotice, user, next_name,fin
 
-    def notice(continue_dist,realnotice, link_name, next_name):
+    def notice(continue_dist,realnotice, user, next_name,fin):
         # 0번째 안내
 
         # 첫번째부터 안내 시작
@@ -342,12 +342,16 @@ class link:
             # tts(text)
             cv2.waitKey(1500)
 
-            start = "none"
+            start1 = "none"
+            start2 = "none"
             # 한번 음성안내 하고 다음 노드 도착까지
             # 노드에 도착했을 때 ocr 돌리기
-            while start != next_name[i]:
+
+
+            while start1 != next_name[i] and start2 != next_name[i]:
+
                 node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5",
-                             "ZARA": "n6", "SUBWAY": "n7", "THOMBROWNE": "n8"}
+                             "ZARA": "n6", "SUBWAY": "n7", "THOMBROWNE": "n8","BOBBIBROWN":"n4"}
                 ocr1 = total_ocr1()
                 ocr2 = total_ocr2()
 
@@ -355,13 +359,15 @@ class link:
                     ocr1 = total_ocr1()
                     ocr2 = total_ocr2()
                     # ocr 로 간판 문구 확인
+
                 if ocr1 != [0]:
-                    start = ocr1
-                elif ocr2 != [0]:
-                    start = ocr2
+                    start1 = ocr1
+
+                if ocr2 != [0]:
+                    start2 = ocr2
                 #print('start1 = ', start)
 
-                while start not in node_info:
+                while start1 not in node_info and start2 not in node_info:
                     print('not in node list')
                     while ocr1 == [0] and ocr2 == [0]:
                         ocr1 = total_ocr1()
@@ -370,16 +376,61 @@ class link:
                     ocr1 = total_ocr1()
                     ocr2 = total_ocr2()
                     if ocr1 != [0] and ocr1 in node_info:
-                        start = ocr1
-                    elif ocr2 != [0] and ocr2 in node_info:
-                        start = ocr2
-                    print('start2 = ', start)
+                        start1 = ocr1
+                    if ocr2 != [0] and ocr2 in node_info:
+                        start2 = ocr2
+
+                    print("start1 =",start1)
+                    print('start2 = ', start2)
+
+            #if start1 == next_name[i]
+
+        cv2.waitKey(2500)  # 시간 간격 조정하기
 
         # break
         print("도착!")
         text = "도착"
         tts(text)
-        return link_name
+        # return link_name
+        cv2.waitKey(1500)  # 시간 간격 조정하기
+
+        final_position = {"LOTTERIA": "W", "BEANPOLE": "S", "LACOSTE": "N", "STARBUCKS": "N", "IKEA": "W", "ZARA": "N",
+                     "SUBWAY": "E", "THOMBROWNE": "N","BOBBIBROWN":"S"}
+
+        compare = []
+        compare.append(user[len(user) - 1])
+        compare.append(final_position[fin])
+
+        #print("compare =", compare)
+
+        if compare[0] == compare[1]:
+            #print("")
+            print("정면에 목적지가 있습니다.")
+            text = "정면에 목적지가 있습니다."
+            tts(text)
+
+        else:
+
+            # 방향
+            notice_direction = 0
+            direct_r = [['N', 'E'], ['W', 'N'], ['N', 'S'], ['E', 'W'], ['E', 'S'], ['S', 'W']]
+            if compare in direct_r:
+                notice_direction = 1  # 오른쪽
+            else:
+                notice_direction = 2
+            # print("notice_direction =", notice_direction)
+
+            if notice_direction == 1:
+                print("우측에 목적지가 있습니다.")
+                text = "우측에 목적지가 있습니다."
+                tts(text)
+            elif notice_direction == 2:
+                print("좌측에 목적지가 있습니다.")
+                text = "좌측에 목적지가 있습니다."
+                tts(text)
+
+
+
 
 
 class bring:
@@ -428,23 +479,42 @@ class bring:
 
             print('start2 = ', start)
 
-        #text_result = main_stt()
-        text_result = "스타벅스."
+        print("목적지를 말하세요.")
+        text = "목적지를 말하세요."
+        tts(text)
 
-        if text_result == "빈폴." or text_result == "빈폴":
-            stt_result = "BEANPOLE"
-        elif text_result == "라코스테." or text_result == "라코스테":
-            stt_result = "LACOSTE"
-        elif text_result == "서브웨이." or text_result == "서브웨이":
-            stt_result = "SUBWAY"
-        elif text_result == "스타벅스." or text_result == "스타벅스":
-            stt_result = "STARBUCKS"
-        elif text_result == "자라."or text_result == "자라":
-            stt_result = "ZARA"
-        elif text_result == "롯데리아."or text_result == "롯데리아":
-            stt_result = "LOTTERIA"
-        elif text_result == "톰브라운."or text_result == "톰브라운":
-            stt_result = "THOMBROWNE"
+        text_result = main_stt()
+        #text_result = "자라."
+        name = 0
+        while name == 0:
+
+            if text_result == "빈폴." or text_result =="빈폴":
+                stt_result = "BEANPOLE"
+                name = 1
+            elif text_result == "라코스테." or text_result =="라코스테":
+                stt_result = "LACOSTE"
+                name = 1
+            elif text_result == "서브웨이."or text_result == "서브웨이":
+                stt_result = "SUBWAY"
+                name = 1
+            elif text_result == "스타벅스."or text_result =="스타벅스":
+                stt_result = "STARBUCKS"
+                name = 1
+            elif text_result == "자라."or text_result =="자라":
+                stt_result = "ZARA"
+                name = 1
+            elif text_result == "롯데리아."or text_result =="롯데리아":
+                stt_result = "LOTTERIA"
+                name = 1
+            elif text_result == "톰브라운."or text_result =="톰브라운":
+                stt_result = "THOMBROWNE"
+                name = 1
+            else:
+                print("다시 목적지를 말하세요.")
+                text = "다시 목적지를 말하세요."
+                tts(text)
+                cv2.waitKey(2500)
+                text_result = main_stt()
 
 
         # 시작 지점의 노드 확인
@@ -477,7 +547,7 @@ class bring:
         # print("link =", link)
         ###################################
 
-        return path_node , strt_node, fin_node
+        return path_node , strt_node, fin_node, fin
 
     def send(usernotice,path):# node 받아와서 next node 리턴해주는 함수
 

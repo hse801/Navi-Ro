@@ -12,7 +12,7 @@ ocr_result2 = [0]
 def total_ocr1():
     # ocr_result1=""
 
-    cap = cv2.VideoCapture(2, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     bucket_name = "prociegoo"
     aws_region = "ap-northeast-2"
     filename = "testimggg1.jpg"
@@ -136,12 +136,3 @@ def total_ocr2():
     main()
     print("ocr_result2", ocr_result2)
     return ocr_result2
-# detect 된 문구를 return 한다
-
-# thread1 = threading.Thread(target=total_ocr1)
-# thread2 = threading.Thread(target=total_ocr2)
-#
-# thread1.start()
-
-# total_ocr1()
-# total_ocr2()
