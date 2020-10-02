@@ -1,4 +1,3 @@
-import math
 import cv2
 # from navi_main import ocr1
 # from navi_main import ocr2
@@ -11,8 +10,9 @@ from naver_stt import main_stt
 
 class set_node:
     def name(self):
-        num = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3","STARBUCKS": "n4", "IKEA": "n5","ZARA": "n6",
-               "SUBWAY": "n7", "THOMBROWNE": "n8", "BOBBIBROWN": "n4"}
+        num = {"LOTTERIA": "n1", "VIPS": "n1", "BEANPOLE": "n2", "adidas": "n2", "LACOSTE": "n3", "STARBUCKS": "n4",
+               "BOBBIBROWN": "n4", "ASHLEY": "n5", "ZARA": "n6", "BURBERRY": "n6",
+               "SUBWAY": "n7", "A TWOSOME PLACE": "n7", "THOMBROWNE": "n8", "Dior": "n8"}
         bb = {v: k for k, v in num.items()}
         return bb[self]
 
@@ -34,22 +34,23 @@ class Node:
 
 class navi:
 
-    def path(start,fin):
+    def path(start, fin):
         maze = [[0, 1, 1, 1, 0, 0],
                 [1, 0, 0, 0, 1, 1],
                 [0, 1, 1, 1, 0, 1]]
-        SMN,FMN = navi.maze_node(start, fin)
+        SMN, FMN = navi.maze_node(start, fin)
 
-        return navi.astar(maze, SMN,FMN)
+        return navi.astar(maze, SMN, FMN)
 
-    #없애도 됨
-    def maze_node(start,fin):
+    # 없애도 됨
+    def maze_node(start, fin):
         # maze = [[0, 1, 1, 1, 0, 0],
         #         [1, 0, 0, 0, 1, 1],
         #         [0, 1, 1, 1, 0, 1]]
 
-        maze_dict = {"n1":(2,4),"n2":(0,4),"n3":(1,3),"n4":(1,2),"n5":(1,1),"n6":(0,0),"n7":(2,0),"n8":(0,5)}
-        #bb = {v: k for k, v in maze_dict.items()}
+        maze_dict = {"n1": (2, 4), "n2": (0, 4), "n3": (1, 3), "n4": (1, 2), "n5": (1, 1), "n6": (0, 0), "n7": (2, 0),
+                     "n8": (0, 5)}
+        # bb = {v: k for k, v in maze_dict.items()}
 
         return maze_dict[start], maze_dict[fin]
 
@@ -127,7 +128,7 @@ class navi:
                 # Create the f, g, and h values
                 child.g = current_node.g + 1
                 child.h = ((child.position[0] - end_node.position[0]) ** 2) + (
-                            (child.position[1] - end_node.position[1]) ** 2)
+                        (child.position[1] - end_node.position[1]) ** 2)
                 child.f = child.g + child.h
 
                 # Child is already in the open list
@@ -140,7 +141,7 @@ class navi:
 
 
 class link:
-    #경로 노드에 해당하는 좌표값을 구해서 노드 사이의 거리들 따로 계산 ? 아니면 총 거리로 계산하는게 나은가?
+    # 경로 노드에 해당하는 좌표값을 구해서 노드 사이의 거리들 따로 계산 ? 아니면 총 거리로 계산하는게 나은가?
     # def locat(self):
     #     f_node = {v: k for k, v in navi.maze_node.maze_dict.items()}
     #     f_node.get(self)
@@ -151,7 +152,8 @@ class link:
 
     def dist(path):
 
-        maze_dict = {"n1": (2, 4), "n2": (0, 4), "n3": (1, 3), "n4": (1, 2), "n5": (1, 1), "n6": (0, 0), "n7": (2, 0),"n8":(0,5)}
+        maze_dict = {"n1": (2, 4), "n2": (0, 4), "n3": (1, 3), "n4": (1, 2), "n5": (1, 1), "n6": (0, 0), "n7": (2, 0),
+                     "n8": (0, 5)}
         bb = {v: k for k, v in maze_dict.items()}
         path_node = []
 
@@ -160,13 +162,13 @@ class link:
 
         return path_node
 
-    def direction(path,fin_node,fin):
+    def direction(path, fin_node, fin):
 
         direct = {"L13": ["N", 16], "L43": ["E", 15], "L56": ["N", 12],
                   "L31": ["S", 16], "L34": ["W", 15], "L65": ["S", 12],
                   "L23": ["W", 14], "L45": ["W", 7], "L75": ["N", 11],
                   "L32": ["E", 14], "L54": ["E", 7], "L57": ["S", 11],
-                  "L28": ["N",10],"L82":["S",10]}
+                  "L28": ["N", 10], "L82": ["S", 10]}
 
         # position = {"L13": ["n1", "n3"], "L43": ["n4", "n3"], "L56": ["n5", "n6"],
         #             "L31": ["n3", "n1"], "L34": ["n3", "n4"], "L65": ["n6", "n5"],
@@ -179,13 +181,13 @@ class link:
                     ("n3", "n2"): "L32", ("n5", "n4"): "L54", ("n5", "n7"): "L57",
                     ("n2", "n8"): "L28", ("n8", "n2"): "L82"}
 
-        #bb2 = {v: k for k, v in direct.items()}
+        # bb2 = {v: k for k, v in direct.items()}
 
         link_name = []
-        for i in range(len(path)-1):
+        for i in range(len(path) - 1):
             link = []
             link.append(path[i])
-            link.append(path[i+1])
+            link.append(path[i + 1])
 
             link = tuple(link)
 
@@ -201,7 +203,7 @@ class link:
         print("def(direction) : usernotice", usernotice)
 
         # 알림받을 노드 설정해주기
-        next_node = bring.send(usernotice,path)
+        next_node = bring.send(usernotice, path)
         print("def(direction) : next_node =", next_node)
 
         continue_dist = []
@@ -212,11 +214,11 @@ class link:
         continue_index = []
         distance_sum = 0
 
-        for i in range(len(usernotice)-1):
+        for i in range(len(usernotice) - 1):
             if usernotice[i] == usernotice[i + 1]:
                 continue_index.append(i)
-                continue_index.append(i+1)
-                #distance_sum += direct[link_name[i]][1]
+                continue_index.append(i + 1)
+                # distance_sum += direct[link_name[i]][1]
         k = 0
         while k < len(continue_index) - 1:
             if continue_index[k] == continue_index[k + 1]:
@@ -224,7 +226,7 @@ class link:
             else:
                 k = k + 1
 
-        print("continue_index =",continue_index)
+        print("continue_index =", continue_index)
 
         for i in continue_index:
             distance_sum += direct[link_name[i]][1]
@@ -236,7 +238,7 @@ class link:
                 del usernotice[i]
             else:
                 i = i + 1
-        #print("usernotice =",usernotice)
+        # print("usernotice =",usernotice)
 
         for i in continue_index:
             continue_dist[i] = distance_sum
@@ -247,18 +249,18 @@ class link:
                 del continue_dist[j]
             else:
                 j = j + 1
-        print("continue_dist =",continue_dist)
+        print("continue_dist =", continue_dist)
 
         user = ["N"]
         user.extend(usernotice)
-        print("user =",user)
+        print("user =", user)
 
         realnotice = []
         for i in range(len(user) - 1):
             realnotice.append([user[i], user[i + 1]])
 
         print("realnotice =", realnotice)
-        #realnotice[0][0]
+        # realnotice[0][0]
 
         # 안내해줘야하는 노드에 해당하는 간판 이름 저장
         next_name = []
@@ -270,9 +272,9 @@ class link:
         print("next_name =", next_name)
         print('====================direction end===================')
 
-        return continue_dist, realnotice, user, next_name,fin
+        return continue_dist, realnotice, user, next_name, fin
 
-    def notice(continue_dist,realnotice, user, next_name,fin):
+    def notice(continue_dist, realnotice, user, next_name, fin):
         # 0번째 안내
 
         # 첫번째부터 안내 시작
@@ -327,7 +329,7 @@ class link:
                     text = "뒤로 도세요"
                     tts(text)
 
-            cv2.waitKey(2500) #시간 간격 조정하기
+            cv2.waitKey(2500)  # 시간 간격 조정하기
 
             # print(realnotice[i])
             # 거리
@@ -347,17 +349,40 @@ class link:
             # 한번 음성안내 하고 다음 노드 도착까지
             # 노드에 도착했을 때 ocr 돌리기
 
-
             while start1 != next_name[i] and start2 != next_name[i]:
 
-                node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5",
-                             "ZARA": "n6", "SUBWAY": "n7", "THOMBROWNE": "n8","BOBBIBROWN":"n4"}
-                ocr1 = total_ocr1()
-                ocr2 = total_ocr2()
+                node_info = {"LOTTERIA": "n1", "VIPS": "n1", "BEANPOLE": "n2", "adidas": "n2", "LACOSTE": "n3",
+                             "STARBUCKS": "n4", "BOBBIBROWN": "n4", "ASHLEY": "n5", "ZARA": "n6", "BURBERRY": "n6",
+                             "SUBWAY": "n7", "A TWOSOME PLACE": "n7", "THOMBROWNE": "n8", "Dior": "n8"}
+
+                prepare_ocr1 = total_ocr1()
+                ocr1 = [0]
+                for p in range(len(prepare_ocr1)):
+                    if prepare_ocr1[p] in node_info:
+                        ocr1 = prepare_ocr1[p]
+                        print('1: ocr1 = ', ocr1)
+
+                prepare_ocr2 = total_ocr2()
+                ocr2 = [0]
+                for p in range(len(prepare_ocr2)):
+                    if prepare_ocr2[p] in node_info:
+                        ocr2 = prepare_ocr2[p]
+                        print('1: ocr2 = ', ocr2)
 
                 while ocr1 == [0] and ocr2 == [0]:
-                    ocr1 = total_ocr1()
-                    ocr2 = total_ocr2()
+                    prepare_ocr1 = total_ocr1()
+                    ocr1 = [0]
+                    for p in range(len(prepare_ocr1)):
+                        if prepare_ocr1[p] in node_info:
+                            ocr1 = prepare_ocr1[p]
+                            print('2:ocr1 = ', ocr1)
+
+                    prepare_ocr2 = total_ocr2()
+                    ocr2 = [0]
+                    for p in range(len(prepare_ocr2)):
+                        if prepare_ocr2[p] in node_info:
+                            ocr2 = prepare_ocr2[p]
+                            print('2:ocr2 = ', ocr2)
                     # ocr 로 간판 문구 확인
 
                 if ocr1 != [0]:
@@ -365,25 +390,47 @@ class link:
 
                 if ocr2 != [0]:
                     start2 = ocr2
-                #print('start1 = ', start)
+                # print('start1 = ', start)
 
                 while start1 not in node_info and start2 not in node_info:
                     print('not in node list')
                     while ocr1 == [0] and ocr2 == [0]:
-                        ocr1 = total_ocr1()
-                        ocr2 = total_ocr2()
+                        prepare_ocr1 = total_ocr1()
+                        ocr1 = [0]
+                        for p in range(len(prepare_ocr1) - 1):
+                            if prepare_ocr1[p] in node_info:
+                                ocr1 = prepare_ocr1[p]
+                                print('3:ocr1 = ', ocr1)
+
+                        prepare_ocr2 = total_ocr2()
+                        ocr2 = [0]
+                        for p in range(len(prepare_ocr2) - 1):
+                            if prepare_ocr2[p] in node_info:
+                                ocr2 = prepare_ocr2[p]
+                                print('3:ocr2 = ', ocr2)
                         # ocr 로 간판 문구 확인
-                    ocr1 = total_ocr1()
-                    ocr2 = total_ocr2()
+                    prepare_ocr1 = total_ocr1()
+                    ocr1 = [0]
+                    for p in range(len(prepare_ocr1) - 1):
+                        if prepare_ocr1[p] in node_info:
+                            ocr1 = prepare_ocr1[p]
+                            print('4:ocr1 = ', ocr1)
+
+                    prepare_ocr2 = total_ocr2()
+                    ocr2 = [0]
+                    for p in range(len(prepare_ocr2) - 1):
+                        if prepare_ocr2[p] in node_info:
+                            ocr2 = prepare_ocr2[p]
+                            print('4:ocr1 = ', ocr2)
                     if ocr1 != [0] and ocr1 in node_info:
                         start1 = ocr1
                     if ocr2 != [0] and ocr2 in node_info:
                         start2 = ocr2
 
-                    print("start1 =",start1)
+                    print("start1 =", start1)
                     print('start2 = ', start2)
 
-            #if start1 == next_name[i]
+            # if start1 == next_name[i]
 
         cv2.waitKey(2500)  # 시간 간격 조정하기
 
@@ -394,17 +441,18 @@ class link:
         # return link_name
         cv2.waitKey(1500)  # 시간 간격 조정하기
 
-        final_position = {"LOTTERIA": "W", "BEANPOLE": "S", "LACOSTE": "N", "STARBUCKS": "N", "IKEA": "W", "ZARA": "N",
-                     "SUBWAY": "E", "THOMBROWNE": "N","BOBBIBROWN":"S"}
+        final_position = {"LOTTERIA": "W", "BEANPOLE": "S", "LACOSTE": "N", "STARBUCKS": "N", "ASHLEY": "W", "ZARA": "N",
+                          "SUBWAY": "E", "THOMBROWNE": "N", "BOBBIBROWN": "S", "VIPS": "E", "adidas": "E",
+                          "Dior": "W", "BURBERRY": "E", "A TWOSOME PLACE": "W"}
 
         compare = []
         compare.append(user[len(user) - 1])
         compare.append(final_position[fin])
 
-        #print("compare =", compare)
+        # print("compare =", compare)
 
         if compare[0] == compare[1]:
-            #print("")
+            # print("")
             print("정면에 목적지가 있습니다.")
             text = "정면에 목적지가 있습니다."
             tts(text)
@@ -430,22 +478,34 @@ class link:
                 tts(text)
 
 
-
-
-
 class bring:
 
-    def main(): #node 경로, 스타트 노드, fin 노드 리턴해주는 함수
+    def main():  # node 경로, 스타트 노드, fin 노드 리턴해주는 함수
         from set_map import link
 
-        node_info = {"LOTTERIA": "n1", "BEANPOLE": "n2", "LACOSTE": "n3", "STARBUCKS": "n4", "IKEA": "n5", "ZARA": "n6",
-                     "SUBWAY": "n7", "THOMBROWNE": "n8"}
+        print('===============main start=================')
+        node_info = {"LOTTERIA": "n1", "VIPS": "n1", "BEANPOLE": "n2", "adidas": "n2", "LACOSTE": "n3",
+                     "STARBUCKS": "n4", "BOBBIBROWN": "n4", "ASHLEY": "n5", "ZARA": "n6", "BURBERRY": "n6",
+                     "SUBWAY": "n7", "A TWOSOME PLACE": "n7", "THOMBROWNE": "n8", "Dior": "n8"}
         # 오른쪽 캠
-        ocr1 = total_ocr1()
-        #ocr1 = "SUBWAY"
+        # ocr1 = total_ocr1()
+        # ocr1 = "SUBWAY"
 
         # 왼쪽 캠
-        ocr2 = total_ocr2()
+        # ocr2 = total_ocr2()
+        prepare_ocr1 = total_ocr1()
+        ocr1 = [0]
+        for p in range(len(prepare_ocr1)):
+            if prepare_ocr1[p] in node_info:
+                ocr1 = prepare_ocr1[p]
+                print('5: ocr1 = ', ocr1)
+
+        prepare_ocr2 = total_ocr2()
+        ocr2 = [0]
+        for p in range(len(prepare_ocr2)):
+            if prepare_ocr2[p] in node_info:
+                ocr2 = prepare_ocr2[p]
+                print('5: ocr2 = ', ocr2)
 
         # print(stt_result)
 
@@ -454,24 +514,61 @@ class bring:
         # 현재 위치 인식하기 위한 OCR
 
         while ocr1 == [0] and ocr2 == [0]:
-            ocr1 = total_ocr1()
-            ocr2 = total_ocr2()
+            # ocr1 = total_ocr1()
+            # ocr2 = total_ocr2()
+            prepare_ocr1 = total_ocr1()
+            ocr1 = [0]
+            for p in range(len(prepare_ocr1)):
+                if prepare_ocr1[p] in node_info:
+                    ocr1 = prepare_ocr1[p]
+                    print('6: ocr1 = ', ocr1)
+
+            prepare_ocr2 = total_ocr2()
+            ocr2 = [0]
+            for p in range(len(prepare_ocr2)):
+                if prepare_ocr2[p] in node_info:
+                    ocr2 = prepare_ocr2[p]
+                    print('6: ocr2 = ', ocr2)
             # ocr 로 간판 문구 확인
         if ocr1 != [0]:
             start = ocr1
         elif ocr2 != [0]:
             start = ocr2
         # print('start1 = ', start)
-        print('===============main start=================')
 
         while start not in node_info:
             print('not in node list')
             while ocr1 == [0] and ocr2 == [0]:
-                ocr1 = total_ocr1()
-                ocr2 = total_ocr2()
+                # ocr1 = total_ocr1()
+                # ocr2 = total_ocr2()
+                prepare_ocr1 = total_ocr1()
+                ocr1 = [0]
+                for p in range(len(prepare_ocr1)):
+                    if prepare_ocr1[p] in node_info:
+                        ocr1 = prepare_ocr1[p]
+                        print('7: ocr1 = ', ocr1)
+
+                prepare_ocr2 = total_ocr2()
+                ocr2 = [0]
+                for p in range(len(prepare_ocr2)):
+                    if prepare_ocr2[p] in node_info:
+                        ocr2 = prepare_ocr2[p]
+                        print('7: ocr2 = ', ocr2)
                 # ocr 로 간판 문구 확인
-            ocr1 = total_ocr1()
-            ocr2 = total_ocr2()
+            #
+            prepare_ocr1 = total_ocr1()
+            ocr1 = [0]
+            for p in range(len(prepare_ocr1)):
+                if prepare_ocr1[p] in node_info:
+                    ocr1 = prepare_ocr1[p]
+                    print('8: ocr1 = ', ocr1)
+
+            prepare_ocr2 = total_ocr2()
+            ocr2 = [0]
+            for p in range(len(prepare_ocr2)):
+                if prepare_ocr2[p] in node_info:
+                    ocr2 = prepare_ocr2[p]
+                    print('8: ocr2 = ', ocr2)
             if ocr1 != [0] and ocr1 in node_info:
                 start = ocr1
             elif ocr2 != [0] and ocr2 in node_info:
@@ -484,30 +581,51 @@ class bring:
         tts(text)
 
         text_result = main_stt()
-        #text_result = "자라."
+        # text_result = "자라."
         name = 0
         while name == 0:
 
-            if text_result == "빈폴." or text_result =="빈폴":
+            if text_result == "빈폴." or text_result == "빈폴":
                 stt_result = "BEANPOLE"
                 name = 1
-            elif text_result == "라코스테." or text_result =="라코스테":
+            elif text_result == "라코스테." or text_result == "라코스테":
                 stt_result = "LACOSTE"
                 name = 1
-            elif text_result == "서브웨이."or text_result == "서브웨이":
+            elif text_result == "서브웨이." or text_result == "서브웨이":
                 stt_result = "SUBWAY"
                 name = 1
-            elif text_result == "스타벅스."or text_result =="스타벅스":
+            elif text_result == "스타벅스." or text_result == "스타벅스":
                 stt_result = "STARBUCKS"
                 name = 1
-            elif text_result == "자라."or text_result =="자라":
+            elif text_result == "자라." or text_result == "자라":
                 stt_result = "ZARA"
                 name = 1
-            elif text_result == "롯데리아."or text_result =="롯데리아":
+            elif text_result == "롯데리아." or text_result == "롯데리아":
                 stt_result = "LOTTERIA"
                 name = 1
-            elif text_result == "톰브라운."or text_result =="톰브라운":
+            elif text_result == "톰브라운." or text_result == "톰브라운":
                 stt_result = "THOMBROWNE"
+                name = 1
+            elif text_result == "빕스." or text_result == "빕스":
+                stt_result = "VIPS"
+                name = 1
+            elif text_result == "아디다스." or text_result == "아디다스":
+                stt_result = "adidas"
+                name = 1
+            elif text_result == "애슐리." or text_result == "애슐리":
+                stt_result = "ASHLEY"
+                name = 1
+            elif text_result == "버버리." or text_result == "버버리":
+                stt_result = "BURBERRY"
+                name = 1
+            elif text_result == "투썸플레이스." or text_result == "투썸플레이스":
+                stt_result = "A TWOSOME PLACE"
+                name = 1
+            elif text_result == "디올." or text_result == "디올":
+                stt_result = "Dior"
+                name = 1
+            elif text_result == "바비브라운." or text_result == "바비브라운":
+                stt_result = "BOBBIBROWN"
                 name = 1
             else:
                 print("다시 목적지를 말하세요.")
@@ -516,11 +634,10 @@ class bring:
                 cv2.waitKey(2500)
                 text_result = main_stt()
 
-
         # 시작 지점의 노드 확인
         strt_node = node_info[start]
 
-        print(strt_node)
+        print('start node = ', strt_node)
 
         # 목적지 text 입력 받기
         fin = stt_result
@@ -528,7 +645,7 @@ class bring:
         # 끝 지점 노드 확인하기
         fin_node = node_info[fin]
         # fin_node = "n7"
-        print(fin_node)
+        print('fin node = ', fin_node)
 
         # 경로 찾기
         path = navi.path(strt_node, fin_node)
@@ -547,9 +664,9 @@ class bring:
         # print("link =", link)
         ###################################
 
-        return path_node , strt_node, fin_node, fin
+        return path_node, strt_node, fin_node, fin
 
-    def send(usernotice,path):# node 받아와서 next node 리턴해주는 함수
+    def send(usernotice, path):  # node 받아와서 next node 리턴해주는 함수
 
         # 노드 설정
 

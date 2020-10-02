@@ -19,10 +19,10 @@ from aws_text_recognition import total_ocr2
 def main():
     from set_map import bring, link
 
-    path,strt,fin_node,fin = bring.main()
+    path, strt, fin_node, fin = bring.main()
 
     #link = link.direction(path)
-    continue_dist, realnotice, user ,next_name,fin =  link.direction(path,fin_node, fin)
+    continue_dist, realnotice, user, next_name, fin = link.direction(path, fin_node, fin)
 
     link.notice(continue_dist, realnotice, user, next_name,fin)
     #print("link =", link)

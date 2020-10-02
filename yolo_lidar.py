@@ -13,9 +13,6 @@ dist = []
 angle = []
 ddict = []
 
-anglecheck1 = []
-anglecheck2 = []
-
 num1 = 0
 num2 = 0
 num3 = 0
@@ -32,15 +29,14 @@ def startyolo():
     cap.set(3, 1920)
     cap.set(4, 1080)
     ret, image = cap.read()
-    cv2.imwrite("C:/Users/kim08/desktop/name2.jpg", image)
+    cv2.imwrite("C:/Users/user/1.jpg", image)
     cap.release()
-    img = cv2.imread("C:/Users/kim08/desktop/name.jpg")
+    img = cv2.imread("C:/Users/user/1.jpg")
 
     # Yolo 로드
-    net = cv2.dnn.readNet("C:/Users/kim08/darknet-master/data/yolov3.weights",
-                          "C:/Users/kim08/darknet-master/cfg/yolov3.cfg")
+    net = cv2.dnn.readNet("C:/Users/user/yolov3.weights", "C:/Users/user/yolov3.cfg")
     classes = []
-    with open("C:/Users/kim08/darknet-master/data/coco.names", "r") as f:
+    with open("C:/Users/user/coco.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
