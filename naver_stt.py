@@ -7,8 +7,8 @@ import re
 
 
 def main_stt():
-    client_id = '0nqqkld1q1'
-    client_secret = 'XoK2ILIequiPGHk7SaCFShdzQf8XJZM8aLeROfmy'
+    client_id = '728wa0ida5'
+    client_secret = '4t9cpdUSI3UlCpXAKn8IEH0pXpiWBjkj8RtzhkR5'
     lang = 'Kor'
     url = 'https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=' + lang
 

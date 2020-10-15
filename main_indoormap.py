@@ -11,3 +11,4 @@ def main():
 
     link.notice(continue_dist, realnotice, user, next_name,fin)
     #print("link =", link)
+

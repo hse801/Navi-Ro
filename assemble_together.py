@@ -1,6 +1,6 @@
 from multiprocessing import Process
 
-from yolo_lidar import final, startyolo
+from yolo_lidar import obstacle, startyolo
 from main_indoormap import main
 
 
@@ -11,7 +11,7 @@ def repeat():
         con = main()
 
 
-p1 = Process(target=final)
+p1 = Process(target=obstacle)
 p2 = Process(target=main)
 
 if __name__ == '__main__':

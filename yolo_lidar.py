@@ -5,6 +5,7 @@ from math import atan, pi, floor
 import matplotlib.pyplot as plt
 import math
 from aws_tts import tts
+import time
 
 anglecheck1 = []
 anglecheck2 = []
@@ -32,13 +33,16 @@ def startyolo():
     obj1_exist = 0
     obj2_exist = 0
 
-    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    start = time.time()
+
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     cap.set(3, 1920)
     cap.set(4, 1080)
     ret, image = cap.read()
     cv2.imwrite("C:/Users/user/1.jpg", image)
     cap.release()
     img = cv2.imread("C:/Users/user/1.jpg")
+    print("time :", time.time() - start)
 
     # Yolo 로드
     net = cv2.dnn.readNet("C:/Users/user/yolov3.weights", "C:/Users/user/yolov3.cfg")
@@ -72,6 +76,8 @@ def startyolo():
                 # Object detected
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
+
+                print("center_x =",center_x)
 
                 w = int(detection[2] * width)
                 h = int(detection[3] * height)
@@ -117,7 +123,7 @@ def startyolo():
                                 obj1_yolo_angle[num1, num2] = 35 + math.degrees(atan((x + w / 2) / 1371))
                             num2 += 1
                             obj1_exist = 1
-                        if label == "bottle":
+                        if label == "chair":
                             # global obj2_yolo_angle
                             # global num3
                             # global obj2_exist
@@ -148,6 +154,11 @@ def startyolo():
 
 
 def read_Lidar():
+
+    # dist = []
+    # angle = []
+    print('after dist = ', dist)
+
     def plot_lidar(distdict):
 
         x = [0 for i in range(360)]
@@ -157,12 +168,12 @@ def read_Lidar():
             x[angle] = distdict[angle] * math.cos(math.radians(angle))
             y[angle] = distdict[angle] * math.sin(math.radians(angle))
 
-        plt.figure(1)
-        plt.cla()
-        plt.ylim(-3000, 3000)
-        plt.xlim(-3000, 3000)
-        plt.scatter(x, y, c='r', s=8)
-        plt.pause(0.001)
+        # plt.figure(1)
+        # plt.cla()
+        # plt.ylim(-3000, 3000)
+        # plt.xlim(-3000, 3000)
+        # plt.scatter(x, y, c='r', s=8)
+        # plt.pause(0.001)
 
     def _CheckSum(data):
 
@@ -203,6 +214,7 @@ def read_Lidar():
         global dist
         global angle
         global ddict
+        
 
         LSN = d[1]
         Angle_fsa = ((_HexArrToDec((d[2], d[3])) >> 1) / 64.0)
@@ -228,8 +240,8 @@ def read_Lidar():
             ddict.append((dist_i, Angle_i))
             dist.append(dist_i * 2)
             angle.append(Angle_i)
-
             return ddict
+        print('before dist = ', dist)
 
     def _Mean(data):
 
@@ -275,15 +287,16 @@ def read_Lidar():
         ser.write(values)
 
         for i in range(10):
+
             angle_data = code(ser)
             plot_lidar(next(angle_data))
 
-        # Scan End
-        values = bytearray([int('a5', 16), int('65', 16)])
-        ser.write(values)
-
-        # Close Serial
-        ser.close()
+        # # Scan End
+        # values = bytearray([int('a5', 16), int('65', 16)])
+        # ser.write(values)
+        #
+        # # Close Serial
+        # ser.close()
 
     if __name__ == '__main__':
         main()
@@ -293,12 +306,9 @@ def obstacle():
     # while True:
     # finaldist랑 finalangle 왜 초기화 안될까...
 
-    finaldist = []
-
-    finalangle = []
-
     exist = startyolo()
     read_Lidar()
+
     finaldist = dist  # distance와 angle 새로운 변수에 저장
     finalangle = angle
 
@@ -315,6 +325,8 @@ def obstacle():
     sumDCD2 = []
     avgdist1 = 0
     avgdist2 = 0
+    # finaldist = []
+    # finalangle = [] #add
 
     # round_dist1 = 0
     # round_dist2 = 0
@@ -378,7 +390,7 @@ def obstacle():
             if len(nonzero_DCD2[sumDCD2.index(min(sumDCD2))]) != 0:
                 avgdist2 = min(sumDCD2) / len(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
                 # round_dist2 = round(avgdist2 / 1000)
-                print(nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
+                print('nonzero_DCD2[sumDCD2.index(min(sumDCD2))] = ', nonzero_DCD2[sumDCD2.index(min(sumDCD2))])
 
         print('avgdist1 = ', avgdist1)
         print('avgdist2 = ', avgdist2)
@@ -397,24 +409,51 @@ def obstacle():
     if round_dist1 != 0:
         if exist[0] == 1:
             if round_dist1 < 1:
-                print("1미터 이내에 사람이 있습니다.")
-                text1 = "1미터 이내에 사람이 있습니다."
+                print("1미터 내 사람.")
+                text1 = "1미터 내 사람."
                 tts(text1)
             else:
-                print(round_dist1, "미터 앞에 사람이 있습니다.")
-                text1 = str(round_dist1) + "미터 앞에 사람이 있습니다."
+                print(round_dist1, "미터 앞 사람.")
+                text1 = str(round_dist1) + "미터 앞 사람."
                 tts(text1)
     if round_dist2 != 0:
         if exist[1] == 1:
             if round_dist2 < 1:
-                print("1미터 이내에 있습니다.")
-                text2 = "1미터 이내에 있습니다."
+                print("1미터 내 의자.")
+                text2 = "1미터 내 의자."
                 tts(text2)
             else:
-                print(round_dist2, "미터 앞에 장애물이 있습니다.")
-                text2 = str(round_dist2) + "미터 앞에 장애물이 있습니다."
+                print(round_dist2, "미터 앞 의자.")
+                text2 = str(round_dist2) + "미터 앞 의자."
                 tts(text2)
 
+def lidar_end():
 
-while True:
-    obstacle()
+    ser = serial.Serial(port='COM13', baudrate=512000)
+
+    # Scan End
+    values = bytearray([int('a5', 16), int('65', 16)])
+    ser.write(values)
+
+    # Close Serial
+    ser.close()
+
+
+def main():
+    menu = int(input("입력하세요!(시작 : 1, 끝 : 2) : "))
+
+    if menu == 1:
+        while True:
+            obstacle()
+    elif menu == 2:
+        lidar_end()
+    else:
+        while menu != 1 and menu != 2:
+            menu = int(input("다시 누르세요! (시작 : 1, 끝 : 2) : "))
+        if menu == 1:
+            while True:
+                obstacle()
+        elif menu == 2:
+            lidar_end()
+
+main()
