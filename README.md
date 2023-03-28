@@ -21,8 +21,7 @@ GPS 사용이 불가한 실내에서 시각장애인이 누군가의 도움 없�
 - University of San Diego 주최 GSIC (Global Social Innovation Challenge) Global finalist 선정  
 
 
-![image](https://user-images.githubusercontent.com/61612117/228106095-6adf09b4-17aa-44bc-ac8c-f4c7167c81f9.png)
-
+![image](https://user-images.githubusercontent.com/61612117/228106389-c83ab16f-1ea2-4f26-b1f3-f3731a3f8bf4.png)
 
 **관련 기사**  
 
