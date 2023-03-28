@@ -20,6 +20,10 @@ GPS 사용이 불가한 실내에서 시각장애인이 누군가의 도움 없�
 - 2020 이화 도전학기제 대표 사례 선정  
 - University of San Diego 주최 GSIC (Global Social Innovation Challenge) Global finalist 선정  
 
+
+![image](https://user-images.githubusercontent.com/61612117/228106095-6adf09b4-17aa-44bc-ac8c-f4c7167c81f9.png)
+
+
 **관련 기사**  
 
 https://inews.ewha.ac.kr/news/articleView.html?idxno=32454  
